@@ -1,11 +1,22 @@
 ---
 name: task-breakdown
-description: Break down complex development requests into discrete, actionable tasks. Use when analyzing new features, integrations, refactoring requests, or any multi-component work that needs to be sequenced across agents (database, backend, frontend). Provides patterns for identifying components, dependencies, and complexity.
+description: Break down complex development requests into discrete, actionable tasks. Use when analyzing new features, integrations, refactoring requests, or any multi-component work that needs to be sequenced across agents. Provides patterns for identifying components, dependencies, and complexity.
 ---
 
 # Task Breakdown
 
 Break complex requests into actionable tasks for agent delegation.
+
+## Available Agents
+
+| Agent | Skill | Responsibilities |
+|-------|-------|------------------|
+| **Database** | database-patterns | Schema design, migrations, queries, ORMs |
+| **Backend** | node-backend | APIs, business logic, authentication |
+| **Frontend** | react-patterns | React/Next.js UI, state, forms |
+| **iOS** | swift-patterns | SwiftUI apps, native iOS features |
+| **DevOps** | devops-patterns | Docker, CI/CD, deployment, infra |
+| **Designer** | design-patterns | Tokens, styling, themes, animations |
 
 ## Breakdown Process
 
@@ -21,10 +32,17 @@ Break complex requests into actionable tasks for agent delegation.
 |------------------------|-----------------|
 | Data models, schema, tables | Database |
 | API endpoints, business logic | Backend |
-| UI, screens, user interaction | Frontend |
+| Web UI, React components | Frontend |
+| Native iOS app | iOS |
+| Deployment, containers, CI/CD | DevOps |
+| Styling, theming, design tokens | Designer |
 | Data + API | Database → Backend |
-| API + UI | Backend → Frontend |
-| Full stack | Database → Backend → Frontend |
+| API + Web UI | Backend → Frontend |
+| API + iOS app | Backend → iOS |
+| Full web stack | Database → Backend → Frontend |
+| Full iOS stack | Database → Backend → iOS |
+| Full stack + deployment | Database → Backend → Frontend → DevOps |
+| Styled components | Designer → Frontend |
 
 ## Complexity Assessment
 
@@ -40,6 +58,7 @@ Break complex requests into actionable tasks for agent delegation.
 # [task-id]: [short description]
 
 Complexity: [simple/medium/complex]
+Platform: [web/ios/both]
 
 Database:
 - [ ] [specific task]
@@ -47,7 +66,16 @@ Database:
 Backend:
 - [ ] [specific task]
 
-Frontend:
+Frontend: (if web)
+- [ ] [specific task]
+
+iOS: (if mobile)
+- [ ] [specific task]
+
+Designer: (if styling needed)
+- [ ] [specific task]
+
+DevOps: (if deployment needed)
 - [ ] [specific task]
 
 Dependencies:
@@ -57,9 +85,12 @@ Dependencies:
 ## Sequencing Rules
 
 1. **Database first** - Schema must exist before backend uses it
-2. **Backend before frontend** - API must exist before UI calls it
-3. **Auth early** - Authentication often blocks other features
-4. **Core before extras** - Basic CRUD before advanced features
+2. **Backend before clients** - API must exist before web/iOS calls it
+3. **Designer before Frontend** - Tokens/themes before styled components
+4. **Auth early** - Authentication often blocks other features
+5. **Core before extras** - Basic CRUD before advanced features
+6. **DevOps last** - Deployment after features are complete
+7. **Frontend & iOS parallel** - Can work simultaneously once API exists
 
 ## Breaking Down Large Requests
 
@@ -71,14 +102,16 @@ If request is too large (complex):
 
 **Example:**
 ```
-User request: "Build a social media app"
+User request: "Build a social media app with web and iOS"
 
 Split into:
-- task-001: User registration and auth
-- task-002: User profile CRUD
-- task-003: Post creation and feed
-- task-004: Follow/unfollow system
-- task-005: Notifications
+- task-001: Design system setup (Designer)
+- task-002: User registration and auth (Database → Backend)
+- task-003: User profile CRUD (Database → Backend → Frontend + iOS)
+- task-004: Post creation and feed (Database → Backend → Frontend + iOS)
+- task-005: Follow/unfollow system (Database → Backend → Frontend + iOS)
+- task-006: Push notifications (Backend → iOS)
+- task-007: CI/CD and deployment (DevOps)
 ...
 ```
 
@@ -94,12 +127,45 @@ Present breakdown to user:
 Breaking down: [request]
 
 Complexity: [simple/medium/complex]
-Components: [database, backend, frontend]
+Platform: [web/ios/both]
+Agents: [database, backend, frontend, ios, designer, devops]
 
 Tasks:
-1. Database: [1 line]
-2. Backend: [1 line]
-3. Frontend: [1 line]
+1. Designer: [setup tokens/theme]
+2. Database: [schema work]
+3. Backend: [API endpoints]
+4. Frontend: [web UI] (parallel with iOS)
+5. iOS: [native app]
+6. DevOps: [deployment]
+
+Sequence: Designer → Database → Backend → Frontend + iOS → DevOps
 
 Proceed with task-001?
+```
+
+## Common Flows
+
+### Web App
+```
+Designer → Database → Backend → Frontend → DevOps
+```
+
+### iOS App
+```
+Designer → Database → Backend → iOS → DevOps
+```
+
+### Full Cross-Platform
+```
+Designer → Database → Backend → Frontend + iOS (parallel) → DevOps
+```
+
+### API Only
+```
+Database → Backend → DevOps
+```
+
+### UI Refresh
+```
+Designer → Frontend
 ```
