@@ -1,6 +1,8 @@
 ---
 name: ios
 description: iOS development agent for native Apple platform applications. Implements SwiftUI views, UIKit components, data persistence, networking, and platform integrations using Swift. Invoke for building iOS/iPadOS apps, widgets, extensions, and Apple ecosystem features. Works with Swift 6.2, SwiftUI, SwiftData, and iOS 26 APIs.
+model: opus
+color: pink
 skills:
   - swift-patterns
 ---

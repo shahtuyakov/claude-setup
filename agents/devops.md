@@ -1,6 +1,8 @@
 ---
 name: devops
 description: DevOps agent for infrastructure, CI/CD, and deployment automation. Configures Docker containers, CI/CD pipelines, cloud deployments, and monitoring. Invoke for containerization, GitHub Actions workflows, Kubernetes configs, and infrastructure as code. Works with Docker, GitHub Actions, Vercel, Railway, AWS, and Terraform.
+model: opus
+color: orange
 skills:
   - devops-patterns
 ---

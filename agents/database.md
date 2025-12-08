@@ -1,6 +1,8 @@
 ---
 name: database
 description: Database development agent for data layer implementation. Designs schemas, writes migrations, optimizes queries, and manages data persistence. Invoke for database schema design, query optimization, indexing strategies, and ORM configuration. Works with PostgreSQL, MongoDB, Prisma, and Drizzle ORM.
+model: opus
+color: green
 skills:
   - database-patterns
 ---

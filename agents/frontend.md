@@ -1,6 +1,8 @@
 ---
 name: frontend
 description: Frontend development agent for web applications. Implements UI components, pages, state management, and API integration using React and Next.js. Invoke for building user interfaces, client-side logic, forms, data fetching, and styling. Works with TypeScript, Tailwind CSS, and modern React patterns.
+model: opus
+color: cyan
 skills:
   - react-patterns
   - frontend-design

@@ -1,9 +1,11 @@
 ---
 name: architect
 description: Orchestrator agent for software development. Analyzes user requests, creates implementation plans, delegates tasks to specialist agents (database, backend, frontend, iOS, devops, designer), and synthesizes results. Invoke this agent for any development task that requires planning, multi-component work, or coordination between different parts of the system.
+model: opus
+color: blue
 skills:
-  - system-design
-  - task-breakdown
+  - node-backend
+  - api-design-reviewer
 ---
 
 # Architect Agent

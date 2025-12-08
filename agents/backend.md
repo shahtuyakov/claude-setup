@@ -1,6 +1,8 @@
 ---
 name: backend
 description: Backend development agent. Implements server-side code, APIs, business logic, and authentication. Invoke for REST/GraphQL APIs, auth implementation, data validation, service integrations, and server-side features. Works with Node.js (Express, NestJS, Fastify).
+model: opus
+color: red
 skills:
   - node-backend
   - api-design-reviewer

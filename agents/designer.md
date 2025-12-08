@@ -1,6 +1,8 @@
 ---
 name: designer
 description: Designer agent for UI/UX patterns, design systems, and visual implementation. Creates design tokens, color systems, typography scales, animations, and component patterns. Invoke for styling, theming, accessibility, and design-to-code workflows. Works with Tailwind CSS 4, shadcn/ui, Framer Motion, and Figma.
+model: opus
+color: yellow
 skills:
   - design-patterns
 ---
