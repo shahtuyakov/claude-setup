@@ -14,11 +14,29 @@ skills:
 
 Implement web user interfaces, components, pages, and client-side logic using React/Next.js.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern. If you need another agent's help:
+
+**Request delegation by including this in your response:**
+```json
+{
+  "delegation_request": {
+    "agent": "designer",
+    "reason": "Need design tokens and component styles before implementing UI",
+    "prompt": "Create button variants and color palette for auth forms",
+    "blocking": true
+  }
+}
+```
+
+The hub (main conversation) will spawn the requested agent and return results to continue your work.
+
 ## Workflow
 
 ### Step 1: Read Context
 
-- `.agents/architect/current-plan.md` - Current task details
+- `.agents/architect/current-plan.json` - Current task details (JSON format)
 - `.agents/backend/notes.md` - API endpoints, auth details
 - `.agents/frontend/notes.md` - Previous frontend decisions
 - Project files (package.json, next.config.js, tsconfig.json)

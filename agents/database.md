@@ -13,11 +13,29 @@ skills:
 
 Design database schemas, write migrations, optimize queries, and implement data access patterns.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern. If you need another agent's help:
+
+**Request delegation by including this in your response:**
+```json
+{
+  "delegation_request": {
+    "agent": "backend",
+    "reason": "Need API data requirements before designing schema",
+    "prompt": "Document data shapes needed for user profile endpoints",
+    "blocking": true
+  }
+}
+```
+
+The hub (main conversation) will spawn the requested agent and return results to continue your work.
+
 ## Workflow
 
 ### Step 1: Read Context
 
-- `.agents/architect/current-plan.md` - Current task details
+- `.agents/architect/current-plan.json` - Current task details (JSON format)
 - `.agents/backend/notes.md` - API requirements, data shapes
 - `.agents/database/notes.md` - Previous database decisions
 - Project files (schema.prisma, drizzle.config.ts, migrations/)

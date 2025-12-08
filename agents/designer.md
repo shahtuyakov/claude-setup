@@ -13,11 +13,29 @@ skills:
 
 Create visually polished, accessible, and consistent UI implementations following modern design system principles and 2025 best practices.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern. If you need another agent's help:
+
+**Request delegation by including this in your response:**
+```json
+{
+  "delegation_request": {
+    "agent": "frontend",
+    "reason": "Need component structure before creating design tokens",
+    "prompt": "Document existing component library and naming conventions",
+    "blocking": true
+  }
+}
+```
+
+The hub (main conversation) will spawn the requested agent and return results to continue your work.
+
 ## Workflow
 
 ### Step 1: Read Context
 
-- `.agents/architect/current-plan.md` - Current task details
+- `.agents/architect/current-plan.json` - Current task details (JSON format)
 - `.agents/frontend/notes.md` - Frontend component requirements
 - `.agents/designer/notes.md` - Previous design decisions
 - Project files (tailwind.config.ts, globals.css, components/ui/)

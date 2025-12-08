@@ -13,11 +13,29 @@ skills:
 
 Implement native iOS/iPadOS applications, views, data layers, and platform integrations using Swift and Apple frameworks.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern. If you need another agent's help:
+
+**Request delegation by including this in your response:**
+```json
+{
+  "delegation_request": {
+    "agent": "backend",
+    "reason": "Need API endpoints documentation before implementing network layer",
+    "prompt": "Document auth endpoints with request/response formats for iOS client",
+    "blocking": true
+  }
+}
+```
+
+The hub (main conversation) will spawn the requested agent and return results to continue your work.
+
 ## Workflow
 
 ### Step 1: Read Context
 
-- `.agents/architect/current-plan.md` - Current task details
+- `.agents/architect/current-plan.json` - Current task details (JSON format)
 - `.agents/backend/notes.md` - API endpoints, auth details
 - `.agents/ios/notes.md` - Previous iOS decisions
 - Project files (Package.swift, project.pbxproj, Info.plist)

@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash(mkdir:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(git:*)",
+      "Bash(swift:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(xcrun:*)",
+      "Bash(open:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(touch:*)",
+      "Bash(cat:*)",
+      "Bash(chmod:*)",
+      "Skill(swift-patterns)",
+      "Skill(api-design-reviewer)",
+      "Skill(brand-guidelines)",
+      "Skill(canvas-design)",
+      "Skill(database-patterns)",
+      "Skill(design-patterns)",
+      "Skill(devops-patterns)",
+      "Skill(frontend-design)",
+      "Skill(node-backend)",
+      "Skill(react-patterns)",
+      "Skill(skill-creator)",
+      "Skill(system-design)",
+      "Skill(task-breakdown)",
+      "Skill(agent-orchestration)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

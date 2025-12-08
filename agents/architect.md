@@ -14,6 +14,14 @@ skills:
 
 Lead architect and orchestrator. Analyze requirements, plan implementation, delegate to specialists, synthesize results.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern:
+- Subagents cannot directly spawn other subagents
+- When delegation is needed, return a **Delegation Request** to the main conversation (hub)
+- The hub spawns the requested agent and passes results back
+- This enables multi-agent workflows through the central hub
+
 ## Available Agents
 
 | Agent | Skill | Responsibilities |
@@ -61,23 +69,54 @@ Only proceed after confirming technologies work together.
 
 ### Step 4: Create Plan
 
-Write to `.agents/architect/current-plan.md`:
+Write to `.agents/architect/current-plan.json`:
 
-```
-# [task-id]: [description]
-
-Platform: [web/ios/both]
-Technologies: [verified stack]
-
-Designer: [specific tasks, if any]
-Database: [specific tasks, if any]
-Backend: [specific tasks, if any]
-Frontend: [specific tasks, if any]
-iOS: [specific tasks, if any]
-DevOps: [specific tasks, if any]
-
-Sequence: [agent order]
-Dependencies: [what depends on what]
+```json
+{
+  "task_id": "task-001",
+  "description": "Add user authentication",
+  "platform": "ios",
+  "status": "planning",
+  "created_at": "2025-12-08T12:00:00Z",
+  "technologies": {
+    "backend": ["Node.js", "Express", "JWT"],
+    "database": ["PostgreSQL", "Prisma"],
+    "frontend": ["React", "Next.js"],
+    "ios": ["Swift 6.2", "SwiftUI", "SwiftData"]
+  },
+  "agents": {
+    "designer": {
+      "required": false,
+      "tasks": []
+    },
+    "database": {
+      "required": true,
+      "tasks": ["Create users table", "Create sessions table"]
+    },
+    "backend": {
+      "required": true,
+      "tasks": ["Implement /auth/login", "Implement /auth/register", "JWT middleware"]
+    },
+    "frontend": {
+      "required": false,
+      "tasks": []
+    },
+    "ios": {
+      "required": true,
+      "tasks": ["Create LoginView", "Create AuthViewModel", "Keychain storage"]
+    },
+    "devops": {
+      "required": false,
+      "tasks": []
+    }
+  },
+  "sequence": ["database", "backend", "ios"],
+  "parallel_groups": [],
+  "dependencies": {
+    "backend": ["database"],
+    "ios": ["backend"]
+  }
+}
 ```
 
 Keep minimal. No boilerplate.
@@ -102,18 +141,76 @@ Sequence: [e.g., Designer → Database → Backend → Frontend + iOS → DevOps
 Proceed?
 ```
 
-### Step 6: Delegate
+### Step 6: Delegate via Hub
 
-Invoke agents sequentially via Task tool. After each: human checkpoint.
+Since subagents cannot directly invoke other subagents, use the **Delegation Request Protocol**:
 
+**Return a delegation request in your response:**
+
+```json
+{
+  "delegation_request": {
+    "type": "sequential",
+    "agents": [
+      {
+        "agent": "database",
+        "task_id": "task-001",
+        "prompt": "Create user schema with email, password_hash, created_at fields",
+        "depends_on": null
+      },
+      {
+        "agent": "backend",
+        "task_id": "task-001",
+        "prompt": "Implement auth endpoints using the user schema",
+        "depends_on": "database"
+      },
+      {
+        "agent": "frontend",
+        "task_id": "task-001",
+        "prompt": "Create login/register forms that call auth endpoints",
+        "depends_on": "backend"
+      }
+    ],
+    "parallel_groups": [
+      ["frontend", "ios"]
+    ],
+    "context_file": ".agents/architect/current-plan.json",
+    "return_to": "architect"
+  }
+}
 ```
-Task(
-  subagent_type="[agent]",
-  prompt="Task [task-id]: [description]. Read .agents/architect/current-plan.md. Create worktree [agent]/[task-id], implement, update .agents/[agent]/status.json and notes.md. Return summary under 500 tokens: files modified, key decisions, notes for other agents."
-)
-```
 
-### Step 7: Synthesize
+**Delegation Request Fields:**
+
+| Field | Description |
+|-------|-------------|
+| `type` | `sequential`, `parallel`, or `mixed` |
+| `agents` | Array of agent tasks to execute |
+| `agent` | Agent type: database, backend, frontend, ios, devops, designer |
+| `task_id` | Task identifier for tracking |
+| `prompt` | Specific instructions for the agent |
+| `depends_on` | Agent that must complete first (null if none) |
+| `parallel_groups` | Arrays of agents that can run concurrently |
+| `context_file` | Path to plan/context file agents should read |
+| `return_to` | Agent to receive aggregated results (usually architect) |
+
+**The hub (main conversation) will:**
+1. Parse the delegation request
+2. Execute agents in the specified order
+3. Handle dependencies and parallel execution
+4. Aggregate results
+5. Return combined results to continue workflow
+
+### Step 7: Process Delegation Results
+
+When the hub returns results from delegated agents:
+- Parse each agent's output
+- Check for errors or blockers
+- Update `.agents/state.json`
+- Decide if more delegation is needed
+- If complete, synthesize final summary
+
+### Step 8: Synthesize
 
 After all agents complete:
 - Read each agent's notes.md

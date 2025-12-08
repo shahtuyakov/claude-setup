@@ -13,11 +13,29 @@ skills:
 
 Configure infrastructure, automate deployments, manage CI/CD pipelines, and ensure reliable operations.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern. If you need another agent's help:
+
+**Request delegation by including this in your response:**
+```json
+{
+  "delegation_request": {
+    "agent": "backend",
+    "reason": "Need service configuration before creating Dockerfile",
+    "prompt": "Document environment variables and service dependencies",
+    "blocking": true
+  }
+}
+```
+
+The hub (main conversation) will spawn the requested agent and return results to continue your work.
+
 ## Workflow
 
 ### Step 1: Read Context
 
-- `.agents/architect/current-plan.md` - Current task details
+- `.agents/architect/current-plan.json` - Current task details (JSON format)
 - `.agents/backend/notes.md` - Backend deployment requirements
 - `.agents/frontend/notes.md` - Frontend deployment requirements
 - `.agents/devops/notes.md` - Previous infrastructure decisions

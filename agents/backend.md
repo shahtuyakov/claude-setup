@@ -14,11 +14,29 @@ skills:
 
 Implement server-side code, APIs, business logic, and authentication using Node.js.
 
+## Hub Architecture
+
+This agent operates in a **Hub Architecture** pattern. If you need another agent's help:
+
+**Request delegation by including this in your response:**
+```json
+{
+  "delegation_request": {
+    "agent": "database",
+    "reason": "Need users table schema before implementing auth endpoints",
+    "prompt": "Create users table with id, email, password_hash, created_at, updated_at",
+    "blocking": true
+  }
+}
+```
+
+The hub (main conversation) will spawn the requested agent and return results to continue your work.
+
 ## Workflow
 
 ### Step 1: Read Context
 
-- `.agents/architect/current-plan.md` - Current task details
+- `.agents/architect/current-plan.json` - Current task details (JSON format)
 - `.agents/database/notes.md` - Schema info if DB work was done
 - `.agents/backend/notes.md` - Previous backend decisions
 - Project files (package.json, tsconfig.json)
