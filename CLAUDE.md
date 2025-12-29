@@ -10,9 +10,7 @@ This repository contains Claude Code skills, a knowledge base of Anthropic engin
 
 ```
 claude-setup/
-├── agents/           # Placeholder for agents (currently empty)
-├── hooks/            # Placeholder for hooks (currently empty)
-├── knowledgebase/    # Anthropic engineering articles on AI agents
+├── agents/
 │   ├── 01-effective-harnesses-for-long-running-agents.md
 │   ├── 02-advanced-tool-use.md
 │   ├── 03-code-execution-with-mcp.md
